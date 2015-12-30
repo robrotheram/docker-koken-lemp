@@ -2,7 +2,7 @@
 
 	$KOKEN_DATABASE = array(
 		'driver' => 'mysqli',
-		'hostname' => 'localhost',
+		'hostname' => '___HOST___',
 		'database' => 'koken',
 		'username' => 'koken',
 		'password' => '___PWD___',
