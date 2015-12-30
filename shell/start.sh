@@ -7,27 +7,12 @@
 
 if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /usr/share/nginx/www/database.php ]; then
 
-  if [ ! -f /var/lib/mysql/ibdata1 ]; then
-    mysql_install_db
-  fi
-
-  # Start MySQL and wait for it to become available
-  /usr/bin/mysqld_safe > /dev/null 2>&1 &
-
-  RET=1
-  while [[ $RET -ne 0 ]]; do
-      echo "=> Waiting for confirmation of MySQL service startup"
-      sleep 2
-      mysql -uroot -e "status" > /dev/null 2>&1
-      RET=$?
-  done
-
   # Generate Koken database and user credentials
   echo "=> Generating database and credentials"
   KOKEN_DB="koken"
   KOKEN_PASSWORD=`pwgen -c -n -1 12`
 
-  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ENV_MYSQL_ROOT_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
   mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'localhost' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
 
   mysqladmin -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD shutdown
