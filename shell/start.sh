@@ -25,14 +25,12 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
   # Generate Koken database and user credentials
   echo "=> Generating database and credentials"
   KOKEN_DB="koken"
-  MYSQL_PASSWORD=`pwgen -c -n -1 12`
   KOKEN_PASSWORD=`pwgen -c -n -1 12`
 
-  mysqladmin -u root password $MYSQL_PASSWORD
-  mysql -uroot -p$MYSQL_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -uroot -p$MYSQL_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'localhost' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
+  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'localhost' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
 
-  mysqladmin -uroot -p$MYSQL_PASSWORD shutdown
+  mysqladmin -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD shutdown
 
   echo "=> Setting up Koken"
   # Setup webroot
