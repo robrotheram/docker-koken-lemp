@@ -15,7 +15,7 @@ RUN \
 	add-apt-repository -y ppa:nginx/stable && \
 	add-apt-repository -y ppa:rwky/graphicsmagick && \
 	apt-get update && \
-	apt-get -y install nginx php5-fpm php5-mysql php5-curl php5-mcrypt graphicsmagick ffmpeg pwgen wget unzip
+	apt-get -y install nginx mysql_client php5-fpm php5-mysql php5-curl php5-mcrypt graphicsmagick ffmpeg pwgen wget unzip
 
 # Configuration
 RUN \
@@ -37,7 +37,6 @@ ADD ./conf/nginx-site.conf /etc/nginx/sites-available/default
 
 # Add runit files for each service
 ADD ./services/nginx /etc/service/nginx/run
-ADD ./services/mysql /etc/service/mysql/run
 ADD ./services/php-fpm /etc/service/php-fpm/run
 ADD ./services/koken /etc/service/koken/run
 
@@ -55,7 +54,6 @@ ADD ./shell/start.sh /etc/my_init.d/001_koken.sh
 # Execute permissions where needed
 RUN \
 	chmod +x /etc/service/nginx/run && \
-	chmod +x /etc/service/mysql/run && \
 	chmod +x /etc/service/php-fpm/run && \
 	chmod +x /etc/service/koken/run && \
 	chmod +x /etc/cron.daily/koken && \
