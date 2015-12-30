@@ -9,17 +9,16 @@ if [[ "$UID" -ne 0 ]]; then
 	exit
 fi
 
-echo -n "=> Pulling Docker/Koken image (this may take a few minutes)..."
-docker pull koken/koken-lemp > /dev/null
+echo -n "=> Building koken image (this may take a few minutes)..."
+docker build -t robrotheram/koken .
 echo "done."
 
-echo -n "=> Creating /data/koken/www and /data/koken/mysql for persistent storage..."
+echo -n "=> Creating /data/koken/www for persistent storage..."
 mkdir -p /data/koken/www
-mkdir -p /data/koken/mysql
 echo "done."
 
 echo "=> Starting Docker container..."
-CID=$(docker run --restart=always -p 80:8080 -v /data/koken/www:/usr/share/nginx/www -v /data/koken/mysql:/var/lib/mysql -d koken/koken-lemp /sbin/my_init)
+CID=$(docker run --restart=always -p 90:8080 --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
 
 echo -n "=> Waiting for Koken to become available.."
 
@@ -28,7 +27,7 @@ while [[ RET -lt 1 ]]; do
 	IP=$(docker inspect $CID | grep IPAddress | cut -d '"' -f 4)
 	echo -n "."
 	sleep 5
-    RET=$(curl -s http://$IP:8080 | grep "jquery" | wc -l)
+    RET=$(curl -s http://$IP:90 | grep "jquery" | wc -l)
 done
 echo "done."
 
