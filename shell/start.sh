@@ -12,10 +12,8 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
   KOKEN_DB="koken"
   KOKEN_PASSWORD=`pwgen -c -n -1 12`
 
-  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ENV_MYSQL_ROOT_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'localhost' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
-
-  mysqladmin -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD shutdown
+  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ENV_MYSQL_ROOT_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'localhost' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
 
   echo "=> Setting up Koken"
   # Setup webroot
@@ -28,6 +26,8 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
 
   # Configure Koken database connection
   sed -e "s/___PWD___/$KOKEN_PASSWORD/" /database.php > /usr/share/nginx/www/database.php
+  sed -e "s/___HOST___/$MYSQL_PORT_3306_TCP_ADDR/" /database.php > /usr/share/nginx/www/database.php
+  
   chown www-data:www-data /usr/share/nginx/www/
   chmod -R 755 /usr/share/nginx/www
 fi
