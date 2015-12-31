@@ -12,7 +12,6 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
   KOKEN_DB="gallery"
   KOKEN_PASSWORD=`pwgen -c -n -1 12`
 
-  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ENV_MYSQL_ROOT_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
   mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE gallery; GRANT ALL PRIVILEGES ON gallery.* TO 'koken'@'%' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
   mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD gallery < /alterations.sql
   echo "=> Setting up Koken"
