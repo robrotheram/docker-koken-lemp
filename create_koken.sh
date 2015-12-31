@@ -8,6 +8,9 @@ if [[ "$UID" -ne 0 ]]; then
 	echo ""
 	exit
 fi
+echo "Cloning Build form https://github.com/robrotheram/docker-koken-lemp/"
+git clone https://github.com/robrotheram/docker-koken-lemp.git koken-docker-build
+cd koken-docker-build
 
 echo -n "=> Building koken image (this may take a few minutes)..."
 docker build -t robrotheram/koken .
@@ -33,3 +36,9 @@ echo "done."
 
 echo "=> Ready! Load this server's IP address or domain in a browser to begin using Koken."
 echo ""
+echo "Clean up in progress"
+echo "Clean Complete"
+cd ../
+rm -rf koken-docker-build
+
+
