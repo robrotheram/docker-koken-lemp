@@ -9,12 +9,12 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
 
   # Generate Koken database and user credentials
   echo "=> Generating database and credentials"
-  KOKEN_DB="koken"
+  KOKEN_DB="gallery"
   KOKEN_PASSWORD=`pwgen -c -n -1 12`
 
   mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ENV_MYSQL_ROOT_PASSWORD' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE koken; GRANT ALL PRIVILEGES ON koken.* TO 'koken'@'%' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
-
+  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD -e "CREATE DATABASE gallery; GRANT ALL PRIVILEGES ON gallery.* TO 'koken'@'%' IDENTIFIED BY '$KOKEN_PASSWORD'; FLUSH PRIVILEGES;"
+  mysql -h$MYSQL_PORT_3306_TCP_ADDR -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD gallery < /alterations.sql
   echo "=> Setting up Koken"
   # Setup webroot
   rm -rf /usr/share/nginx/www/*
@@ -31,7 +31,7 @@ if [ ! -f /usr/share/nginx/www/storage/configuration/database.php ] && [ ! -f /u
   sed -i -e "s/___HOST___/$MYSQL_PORT_3306_TCP_ADDR/" /usr/share/nginx/www/database.php
 
   chown www-data:www-data /usr/share/nginx/www/
-  chmod -R 755 /usr/share/nginx/www
+  chmod -R 777 /usr/share/nginx/www
 fi
 
 ################################################################

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-
+PORT=90
 # Root check
 if [[ "$UID" -ne 0 ]]; then
 	echo "!! This script requires root privileges. sudo ./create_koken.sh"
@@ -18,7 +18,7 @@ mkdir -p /data/koken/www
 echo "done."
 
 echo "=> Starting Docker container..."
-CID=$(docker run --restart=always -p 90:8080 --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
+CID=$(docker run --restart=always -p $PORT:8080 --link mysql:mysql -v /data/koken5/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
 
 echo -n "=> Waiting for Koken to become available.."
 
@@ -27,7 +27,7 @@ while [[ RET -lt 1 ]]; do
 	IP=$(docker inspect $CID | grep IPAddress | cut -d '"' -f 4)
 	echo -n "."
 	sleep 5
-    RET=$(curl -s http://$IP:90 | grep "jquery" | wc -l)
+    RET=$(curl -s http://$IP:$PORT | grep "jquery" | wc -l)
 done
 echo "done."
 

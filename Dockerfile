@@ -15,7 +15,7 @@ RUN \
 	add-apt-repository -y ppa:nginx/stable && \
 	add-apt-repository -y ppa:rwky/graphicsmagick && \
 	apt-get update && \
-	apt-get -y install nginx mysql-client php5-fpm php5-mysql php5-curl php5-mcrypt php-gd ffmpeg pwgen wget unzip
+	apt-get -y install nginx mysql-client php5-fpm php5-mysql php5-curl php5-mcrypt php5-gd ffmpeg pwgen wget unzip
 
 # Configuration
 RUN \
@@ -34,6 +34,9 @@ RUN \
 
 # nginx site conf
 ADD ./conf/nginx-site.conf /etc/nginx/sites-available/default
+
+# Add any sql alterations
+ADD ./conf/alterations.sql /alterations.sql
 
 # Add runit files for each service
 ADD ./services/nginx /etc/service/nginx/run
