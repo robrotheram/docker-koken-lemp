@@ -21,7 +21,7 @@ mkdir -p /data/koken/www
 echo "done."
 
 echo "=> Starting Docker container..."
-CID=$(docker run --restart=always -p $PORT:8080 --link mysql:mysql -v /data/koken5/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
+CID=$(docker run --restart=always -p $PORT:8080 --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
 
 echo -n "=> Waiting for Koken to become available.."
 
