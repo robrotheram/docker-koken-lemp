@@ -1,25 +1,29 @@
 # Docker + Koken + nginx = ♥
 
-This official Koken Docker image installs the latest version of [Koken](http://koken.me) and all necessary system requirements.
-
+Unoffical Image for installing koken. Major difference between this and the offical container is that this uses a seperate mysql container instead of one inbuilt into the container;
 ## Features
 
 * Automatically sets up and configures the database for Koken and skips that step in the installation process.
 * Adds a cron job to do periodic cleanup of the image cache.
 * nginx/PHP configured for best Koken performance.
 * Can be used on any machine with Docker installed.
+* Uses seperate mysql container 
 
-## Using at Digital Ocean
+## Prequistis
+1. Have Docker installed (https://www.docker.io/gettingstarted/#h_installation).
+2. have a mysql container running see here for help of starting one up https://hub.docker.com/_/mysql/
 
-[Digital Ocean](https://www.digitalocean.com/?refcode=b57390666b79) provides fast, low cost virtual servers that are well suited for Koken. We have a [dedicated article on our help site](http://help.koken.me/customer/portal/articles/1648433-using-koken-docker-and-digital-ocean) with instructions on how to use this Docker image at Digital Ocean.
-
-## General usage
-
-If you aren't using Digital Ocean, you just need to ensure that your host is compatible with Docker and then follow the instructions below. 
-
-1. Install [Docker](https://www.docker.io/gettingstarted/#h_installation).
-2. Use our [simple wrapper script](https://gist.github.com/bradleyboy/48b67b5e9ebf91031a19) to start Koken.
-
+##Simple setup
 ~~~bash
-wget -qO- https://gist.githubusercontent.com/bradleyboy/48b67b5e9ebf91031a19/raw/create_koken.sh | sudo bash
+wget -qO- https://raw.githubusercontent.com/robrotheram/docker-koken-lemp/master/create_koken.sh | sudo bash
 ~~~
+Server will now be running on port 90 and storage created at /data/koken
+
+
+##Custom
+
+1. Clone this repo
+2. build the image "docker build -t name ."
+3. docker run -d  -p <port>:8080 -v <dir for koken>:/usr/:/usr/share/nginx/www --link <mysql container name>:mysql <image name>  /sbin/my_init
+
+
