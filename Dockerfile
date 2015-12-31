@@ -15,7 +15,7 @@ RUN \
 	add-apt-repository -y ppa:nginx/stable && \
 	add-apt-repository -y ppa:rwky/graphicsmagick && \
 	apt-get update && \
-	apt-get -y install nginx mysql_client php5-fpm php5-mysql php5-curl php5-mcrypt graphicsmagick ffmpeg pwgen wget unzip
+	apt-get -y install nginx mysql-client php5-fpm php5-mysql php5-curl php5-mcrypt php-gd ffmpeg pwgen wget unzip
 
 # Configuration
 RUN \
