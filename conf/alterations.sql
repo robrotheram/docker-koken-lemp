@@ -1,3 +1,5 @@
+SET global sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+
 --
 -- Table structure for table `koken_slugs`
 --
@@ -28,3 +30,4 @@ CREATE TABLE `koken_trash` (
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
