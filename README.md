@@ -1,7 +1,11 @@
-##Custome SSL support by adding a cert directory and exposing port 443
+#Custome SSL support by adding a cert directory and exposing port 443
 * Currently uses port 8444 for ssl
 * Certs are stored in /data/nginx/certs 
 * Certs need to be created I suggest using LetsEncrypt 
+
+## Certs in the /data/nginx/certs 
+place your cert.pem and privkey.pem
+
 
 Unoffical Image for installing Koken. Major difference between this and the offical container is that this uses a seperate mysql container instead of one inbuilt into the container;
 
