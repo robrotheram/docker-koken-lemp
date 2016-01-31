@@ -1,3 +1,4 @@
+Custome SSL support by adding a cert directory and exposing port 443
 
 Unoffical Image for installing Koken. Major difference between this and the offical container is that this uses a seperate mysql container instead of one inbuilt into the container;
 
@@ -22,4 +23,4 @@ Server will now be running on port 90 and storage created at /data/koken
 ## Custom Installation
 1. Clone this repo
 2. Build the image `docker build -t image-name .`
-3. `docker run -d -p <port>:8080 -v <dir for koken>:/usr/share/nginx/www --link <mysql container name>:mysql <image-name> /sbin/my_init`
+3. `docker run -d -p <port>:8080 -p <port>:443 -v <certs dir>:/etc/nginx/certs -v <dir for koken>:/usr/share/nginx/www --link <mysql container name>:mysql <image-name> /sbin/my_init`
