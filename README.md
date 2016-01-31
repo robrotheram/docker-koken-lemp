@@ -1,4 +1,7 @@
-Custome SSL support by adding a cert directory and exposing port 443
+##Custome SSL support by adding a cert directory and exposing port 443
+* Currently uses port 8444 for ssl
+* Certs are stored in /data/nginx/certs 
+* Certs need to be created I suggest using LetsEncrypt 
 
 Unoffical Image for installing Koken. Major difference between this and the offical container is that this uses a seperate mysql container instead of one inbuilt into the container;
 
@@ -15,9 +18,9 @@ Unoffical Image for installing Koken. Major difference between this and the offi
 
 ## Simple Setup
 ~~~bash
-wget -qO- https://raw.githubusercontent.com/robrotheram/docker-koken-lemp/master/create_koken.sh | sudo bash
+wget -qO- https://github.com/robrotheram/docker-koken-lemp/blob/SSL-Support/create_koken.sh | sudo bash
 ~~~
-Server will now be running on port 90 and storage created at /data/koken
+Server will now be running on port 90 and 8444 for ssl  and storage created at /data/koken and certs in /data/nginx/certs 
 
 
 ## Custom Installation
