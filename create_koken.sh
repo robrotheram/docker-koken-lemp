@@ -9,7 +9,7 @@ if [[ "$UID" -ne 0 ]]; then
 	exit
 fi
 echo "Cloning Build form https://github.com/robrotheram/docker-koken-lemp/"
-git clone https://github.com/robrotheram/docker-koken-lemp.git koken-docker-build
+git clone -b custom-ssl https://github.com/robrotheram/docker-koken-lemp.git koken-docker-build
 cd koken-docker-build
 
 echo -n "=> Building koken image (this may take a few minutes)..."
@@ -21,7 +21,7 @@ mkdir -p /data/koken/www
 echo "done."
 
 echo "=> Starting Docker container..."
-CID=$(docker run --restart=always -p $PORT:8080 --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
+CID=$(docker run --restart=always -p $PORT:8080 -p 8444:443 -v /data/nginx/certs:/etc/nginx/certs --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
 
 echo -n "=> Waiting for Koken to become available.."
 
