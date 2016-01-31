@@ -2,6 +2,8 @@
 
 echo ""
 PORT=90
+SSLPORT=8444
+
 # Root check
 if [[ "$UID" -ne 0 ]]; then
 	echo "!! This script requires root privileges. sudo ./create_koken.sh"
@@ -9,7 +11,7 @@ if [[ "$UID" -ne 0 ]]; then
 	exit
 fi
 echo "Cloning Build form https://github.com/robrotheram/docker-koken-lemp/"
-git clone -b custom-ssl https://github.com/robrotheram/docker-koken-lemp.git koken-docker-build
+git clone -b SSL-Support https://github.com/robrotheram/docker-koken-lemp.git koken-docker-build
 cd koken-docker-build
 
 echo -n "=> Building koken image (this may take a few minutes)..."
@@ -20,8 +22,14 @@ echo -n "=> Creating /data/koken/www for persistent storage..."
 mkdir -p /data/koken/www
 echo "done."
 
+echo -n "=> Creating /data/nginx/certs for cert storage..."
+if [ ! -d /data/nginx/certs ] ; then
+mkdir /data/nginx/certs
+fi
+echo "done."
+
 echo "=> Starting Docker container..."
-CID=$(docker run --restart=always -p $PORT:8080 -p 8444:443 -v /data/nginx/certs:/etc/nginx/certs --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
+CID=$(docker run --restart=always -p $PORT:8080 -p $SSLPORT:443 -v /data/nginx/certs:/etc/nginx/certs --link mysql:mysql -v /data/koken/www:/usr/share/nginx/www -d robrotheram/koken /sbin/my_init)
 
 echo -n "=> Waiting for Koken to become available.."
 
