@@ -1,6 +1,5 @@
-Custome SSL support by adding a cert directory and exposing port 443
+My own custome SSL support for more general ssl support go to https://github.com/robrotheram/docker-koken-lemp/blob/SSL-Support
 
-Unoffical Image for installing Koken. Major difference between this and the offical container is that this uses a seperate mysql container instead of one inbuilt into the container;
 
 ## Features
 * Automatically sets up and configures the database for Koken and skips that step in the installation process.
